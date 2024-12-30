@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumo do Ano - Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #d3d3d3;
+            font-family: Arial, sans-serif;
+        }
+
+        .card-container {
+            margin-top: 30px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: #007bff;
+        }
+
+        .metrics-container {
+            margin-bottom: 30px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .card-number {
+            font-size: 1.0rem;
+            color: #ff6347;
+            font-weight: bold;
+            border: 2px solid #ff6347;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            background-color: #fff3e0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 80px;
+        }
+
+        .card-text {
+            font-size: 1rem;
+            color: #333;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        .chart-container {
+            margin-top: 20px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 10px;
+            color: #6c757d;
+        }
+
+        h3 {
+            color: #007bff;
+        }
+
+        .card-columns {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            margin: 10px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .col-md-3 {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Resumo do Ano em Cartões -->
+    <div class="row card-container">
+        <!-- Total de Tempo Programado no Ano -->
+        <div class="col-md-3 mb-4 d-flex">
+            <div class="card d-flex">
+                <div class="card-body">
+                    <h5 class="card-title">Total de Tempo Programado no Ano</h5>
+                    <div class="card-number" id="total-hours">Carregando...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dia com Maior Tempo Programado -->
+        <div class="col-md-3 mb-4 d-flex">
+            <div class="card d-flex">
+                <div class="card-body">
+                    <h5 class="card-title">Dia com Maior Tempo Programado</h5>
+                    <div class="card-number" id="max-day">
+                        <span id="max-day-date">Carregando...</span> <!-- Data -->
+                        <span id="max-day-hours">Carregando...</span> <!-- Horas -->
+                    </div> <!-- Números com estilo personalizado -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Mês com Maior Tempo Programado -->
+        <div class="col-md-3 mb-4 d-flex">
+            <div class="card d-flex">
+                <div class="card-body">
+                    <h5 class="card-title">Mês com Maior Tempo Programado</h5>
+                    <div class="card-number" id="max-month">
+                        <span id="max-month-number">Carregando...</span> <!-- Mês -->
+                        <span id="max-month-hours">Carregando...</span> <!-- Horas -->
+                    </div> <!-- Números com estilo personalizado -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráfico de Distribuição de Tempo -->
+    <div class="row chart-container d-flex justify-content-center">
+        <div class="col-md-8 text-center">
+            <h3>Tempo por Linguagem de Programação 2024</h3>
+            <object data="static/programming_languages_time.svg" type="image/svg+xml" class="w-100" id="pie-chart"></object>
+        </div>
+    </div>
+
+    <!-- Rodapé com mensagem de fim de ano -->
+    <div class="footer">
+        <p>&copy; 2024 - Resumo do Ano de Programação 2024 Aristides Henrique</p>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    // Função para carregar os dados do arquivo JSON e exibi-los
+    fetch('static/data.json')
+        .then(response => response.json())
+        .then(data => {
+            // Preenchendo os dados nos elementos do HTML
+            document.getElementById('total-hours').textContent = `${data.total_hours}`;
+            document.getElementById('max-day-date').textContent = data.max_day;
+            document.getElementById('max-day-hours').textContent = `${data.max_day_hours}`;
+            document.getElementById('max-month-number').textContent = data.max_month;
+            document.getElementById('max-month-hours').textContent = `${data.max_month_hours}`;
+        })
+        .catch(error => console.error('Erro ao carregar os dados JSON:', error));
+</script>
+
+</body>
+</html>
